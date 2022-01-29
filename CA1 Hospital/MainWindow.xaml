@@ -1,0 +1,146 @@
+﻿<Window x:Class="CA1_Hospital.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Hospital System" HorizontalContentAlignment="Center"
+        Height="490" Width="839.495"
+        WindowStartupLocation="CenterScreen"
+        Loaded="Window_Loaded">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="-1" ResizeBorderThickness="4" CaptionHeight="40" />
+    </WindowChrome.WindowChrome>
+    <Window.Template>
+        <ControlTemplate>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Background="Khaki" Opacity="0.7">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Window Title - Center Aligned -->
+                        <TextBlock
+                            Grid.Column="1"
+                            TextAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontWeight="Bold"
+                            Text="{Binding Title, RelativeSource={RelativeSource TemplatedParent}}" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1" Background="White" Opacity="1">
+                    <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" />
+                </Border>
+            </Grid>
+        </ControlTemplate>
+    </Window.Template>
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush Opacity="0.4" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="White" Offset="0.559"></GradientStop>
+                <GradientStop Color="#FFFFF800" Offset="0.9"></GradientStop>
+                <GradientStop Color="#FF94F7EE" Offset="0.015"></GradientStop>
+                <GradientStop Color="#FFFFF800" Offset="0.1"></GradientStop>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" Orientation="Vertical"  Margin="5,10,5,5">
+            <TextBlock Text="Ward" Name="tblWardList" Height="35" FontWeight="Bold" Padding="1,3,1,1" VerticalAlignment="Center"></TextBlock>
+            <ListBox x:Name="lbWardList" Height="145" SelectionChanged="lbWardList_SelectionChanged" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Orientation="Vertical"  Margin="5">
+            <Label Content="Patient" Margin="10,0,0,0" Height="30" FontWeight="Bold" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"></Label>
+            <ListBox x:Name="lbPatient" Height="145" SelectionChanged="lbPatient_SelectionChanged" Margin="10" />
+        </StackPanel>
+
+        <Label Grid.Column="2" HorizontalContentAlignment="Left" Content="Details" FontWeight="Bold" VerticalAlignment="Top" VerticalContentAlignment="Center" Height="43" />
+
+        <StackPanel Background="White" Margin="0,40,0,0" Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" Orientation="Vertical"  Height="400" Grid.RowSpan="2" HorizontalAlignment="Left" Width="166">
+            <TextBox  Height="31" Width="141" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,20" Name="tblPatientDetails" FontWeight="Bold" FontSize="20" BorderBrush="White" />
+            <Border>
+                <Image x:Name="imgBloodType" Width="120" Height="200" />
+            </Border>
+            
+            <Button Grid.Row="3" Grid.Column="0" Name="btnWardSave" Height="20" Content="Save" Width="140" Margin="5" Click="btnWardSave_Click" />
+            <Button Grid.Row="3" Grid.Column="1" Name="btnWardLoad" Height="20" Content="Load" Width="140" Margin="5" Click="btnWardLoad_Click" />
+
+        </StackPanel>
+
+        <Expander Grid.Row="1" Grid.Column="0" Margin="0,0,0,-1" Header="Add New Ward">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="Name" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" />
+                <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" Name="tbxWardName" Margin="10" />
+                <Label Grid.Row="1" Grid.Column="0" Content="Capacity" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" />
+                <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Width="20" Margin="20" Name="tblkSlider" Text="0" />
+                <Slider Grid.Row="1" Grid.Column="1" Name="slider"  VerticalAlignment="Center" HorizontalAlignment="Left" Width="100" Margin="10" TickPlacement="TopLeft" SmallChange="1" TickFrequency="-8" ValueChanged="slider_ValueChanged" />
+                <Button Grid.Column="1" Grid.Row="2"  Name="btnAddWard" Height="20"  Width="auto" Margin="5" Click="btnAddWard_Click" IsEnabled="{Binding ElementName=tbxWardName, Path=Text.Length}">Add Ward</Button>
+               
+            </Grid>
+        </Expander>
+
+        <Expander Grid.Row="1" Grid.Column="1" Header="Add New Patient">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Content="Name" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" Name ="tbxPatientName" Margin="10" />
+                <Label Grid.Row="1" Grid.Column="0" Content="DOB" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" />
+                <DatePicker x:Name="dateTimePicker" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="140" Margin="10" />
+                <Label Grid.Row="2" Grid.Column="0" Content="Blood Type" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" />
+                <Button Grid.Row="3" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" Content="Add Patient" Width="140" Name="btnAddPatient" Margin="10" Click="btnAddPatient_Click" IsEnabled="{Binding ElementName=tbxPatientName, Path=Text.Length}" />
+
+                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                    <RadioButton Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Content="A" Margin="5" Name="rbtnA" />
+                    <RadioButton Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Content="B" Margin="5"  Name="rbtnB" />
+                    <RadioButton Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Content="AB" Margin="5"  Name="rbtnAB" />
+                    <RadioButton Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Content="O" Margin="5"  Name="rbtnO" />
+                </StackPanel>
+            </Grid>
+        </Expander>
+    </Grid>
+</Window>
